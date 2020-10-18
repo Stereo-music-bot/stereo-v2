@@ -7,6 +7,7 @@ import ms from 'ms';
 const inviteLink = 'https://stereodiscord.glitch.me/invite';
 const supportServer = 'https://discord.gg/bvn89qP';
 const website = 'https://stereodiscord.glitch.me/';
+const donationPage = 'https://www.paypal.com/paypalme/daangamesdg';
 
 export default class HelpCommand extends BaseCommand {
   constructor() {
@@ -30,7 +31,7 @@ export default class HelpCommand extends BaseCommand {
       .setColor(message.member.displayHexColor || 'BLUE')
     
     client.owners.includes(message.author.id) 
-    ? embed.addField(`Bot Commands - [${client.cs.size}]`, `> ❓ | \`<>\` means this part of the command is needed | \`[]\` means that this part of the command is optional and not needed, \n > 🔗 | Useful Links: [Invite me](${inviteLink}) | [Support Server](${supportServer}) | [Website](${website})`) 
+    ? embed.addField(`Bot Commands - [${client.cs.size}]`, `> ❓ | \`<>\` means this part of the command is needed | \`[]\` means that this part of the command is optional and not needed, \n > 🔗 | Useful Links: [Invite me](${inviteLink}) | [Support Server](${supportServer}) | [Website](${website}) | [Donate](${donationPage})`) 
     : embed.addField(`Bot Commands - [${client.cs.size - client.cs.filter(c => !c.getOptions().ownerOnly).size}]`, `> ❓ | \`<>\` means this part of the command is needed | \`[]\` means that this part of the command is optional and not needed. \n > 🔗 | Useful Links: [Invite me](${inviteLink}) | [Support Server](${supportServer}) | [Website](${website})`)
     
     if (args[0]) {

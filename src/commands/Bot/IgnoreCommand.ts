@@ -12,7 +12,7 @@ export default class IgnoreCommand extends BaseCommand {
       aliases: [],
       description: 'Adds or removes channels from the blacklist (if the bot needs to ignore message in a channel)',
       userPermissions: ['MANAGE_GUILD'],
-      usage: '<channel mention (can be multiple)>',
+      usage: '<channel mention (can be multiple at the time)>',
       ownerOnly: false,
       timeout: 10e3
     });
