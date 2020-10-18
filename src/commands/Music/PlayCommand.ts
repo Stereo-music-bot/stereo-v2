@@ -1,6 +1,6 @@
+import { guildConfig } from '../../utils/database/guildConfigSchema';
 import { Message } from 'discord.js';
 import rest from '../../utils/functions/rest';
-import { LoadTrackResponse } from '@kyflx-dev/lavalink-types';
 import BaseCommand from '../../utils/structures/BaseCommand';
 import DiscordClient from '../../client/client';
 import Queue from '../../utils/functions/queue';
@@ -49,12 +49,13 @@ export default class PlayCommand extends BaseCommand {
     player = client.music.players.get(message.guild.id) || client.music.create(message.guild.id);
     if (!player.queue) player.queue = new Queue(player);
     if (!player.radio) player.radio = { playing: false, name: undefined };
+    const Announce = await announce(message.guild.id);
 
     switch (result.loadType) {
       case 'TRACK_LOADED':
         player.queue.add(result.tracks[0].track, message.author.id);
         if (!player.connected) player.connect(channel.id, { selfDeaf: true });
-        if (!player.playing && !player.paused) await player.queue.start(message, true);
+        if (!player.playing && !player.paused) await player.queue.start(message, Announce);
         if (message.guild.me.permissions.has('DEAFEN_MEMBERS')) message.guild.me.voice.setDeaf(true);
         return message.channel.send(
           `> 🎵 | Enqueuing the song **${result.tracks[0].info.title}**!`
@@ -63,7 +64,7 @@ export default class PlayCommand extends BaseCommand {
       case 'PLAYLIST_LOADED':
         result.tracks.forEach(t => player.queue.add(t.track, message.author.id));
         if (!player.connected) player.connect(channel.id, { selfDeaf: true });
-        if (!player.playing && !player.paused) await player.queue.start(message, true);
+        if (!player.playing && !player.paused) await player.queue.start(message, Announce);
         if (message.guild.me.permissions.has('DEAFEN_MEMBERS')) message.guild.me.voice.setDeaf(true);
         return message.channel.send(
           `> 🎵 | Enqueuing the playlist **${result.playlistInfo.name}** - \`${result.tracks.length}\` Song(s).`
@@ -88,7 +89,7 @@ export default class PlayCommand extends BaseCommand {
           player.queue.add(track.track, message.author.id);
 
           if (!player.connected) player.connect(channel.id, { selfDeaf: true });
-          if (!player.playing && !player.paused) await player.queue.start(message, true);
+          if (!player.playing && !player.paused) await player.queue.start(message, Announce);
 
           if (message.guild.me.permissions.has('DEAFEN_MEMBERS')) message.guild.me.voice.setDeaf(true);
           return message.channel.send(`> 🎵 | Enqueuing the song **${track.info.title}**!`);
@@ -100,4 +101,10 @@ export default class PlayCommand extends BaseCommand {
         });
     }  
   }
+}
+
+async function announce(id: string): Promise<boolean> {
+  const data = await guildConfig.findOne({ guildId: id });
+  //@ts-ignore
+  return data.announce || true;
 }

@@ -16,6 +16,7 @@ const client = new DiscordClient({});
   client.owners = ['304986851310043136'];
 
   client.rolePermissions = new Collection();
+  client.ignoredChannels = new Collection();
 
   client.Webhook = new WebhookClient(
     '762318210959540234', 
@@ -76,6 +77,7 @@ declare module 'discord.js' {
     music: Manager;
     owners: Array<string>;
     Webhook: WebhookClient;
-    rolePermissions: Collection<string, rolePermissions>
+    rolePermissions: Collection<string, rolePermissions>;
+    ignoredChannels: Collection<string, Array<string>>;
   }
 }

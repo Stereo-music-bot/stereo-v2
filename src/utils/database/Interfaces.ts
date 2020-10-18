@@ -9,4 +9,5 @@ export interface guildConfig {
   announce: boolean,
   partner: boolean,
   rolePermissions: Array<rolePermissions>,
+  ignoredChannels: Array<string>,
 };

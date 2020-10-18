@@ -21,17 +21,16 @@ export default class AnnounceCommand extends BaseCommand {
     const player = client.music.players.get(message.guild.id);
 
     try {
-      if (player || (player.queue.current || player.radio)) player.queue.Announce();
-      guildConfig.findOne({ guildId: message.guild.id }, async (err: any, data: guildConfigInterface) => {
+      if (player) player.queue.Announce();
+      guildConfig.findOne({ guildId: message.guild.id }, async (err, data: guildConfigInterface) => {
         if (err) throw new error(err);
-        if (!data) throw new error('No guild Config');
-        data.announce = !data.announce;
+        guildConfig.findOneAndUpdate({ guildId: message.guild.id }, { announce: !data.announce || false }, (err) => { if (err) throw new error(err) });
+        return message.channel.send(`> 💬 | Successfully ${data.announce ? 'disabled' : 'enabled'} the announcements of songs.`);
       });
     } catch (e) {
       await message.channel.send(`> ${client.utils.EmojiFinder(client, 'redtick').toString()} | For some reason the guard didn't want to open the gate when entering the database.`);
       return client.Webhook.send(`> ❌ | New error | **${message.guild.name}** | DB Announce Command Error | Error: \`${e.message || e}\``);
     }
     
-    return message.channel.send(`> 💬 | Successfully ${player.queue.announce ? 'enabled' : 'disabled'} the announcements of songs.`);
   }
 }

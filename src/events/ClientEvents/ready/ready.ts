@@ -51,8 +51,10 @@ function loadGuildConfig(guildId: string, client: DiscordClient) {
       new guildConfig(guildConfigObject).save();
       client.rolePermissions.set(guildId, rolePermissions);
       client.prefix.set(guildId, prefix);
+      client.ignoredChannels.set(guildId, []);
     } else {
       client.prefix.set(guildId, data.prefix);
+      client.ignoredChannels.set(guildId, data.ignoredChannels);
       const rolePermissions: rolePermissions = {
         roleId: guildId,
         permissions: 'ALL',

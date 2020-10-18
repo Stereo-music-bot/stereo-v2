@@ -1,3 +1,4 @@
+import { guildConfig } from '../../utils/database/guildConfigSchema';
 import { Message } from 'discord.js';
 import fetch from 'node-fetch'
 import rest from '../../utils/functions/rest'
@@ -60,8 +61,15 @@ export default class RadioCommand extends BaseCommand {
     player.queue.add(tracks[0].track, message.author.id);
 
     if (!player.connected) player.connect(channel.id, { selfDeaf: true });
-    if (!player.playing && !player.paused) await player.queue.start(message, true);
+    const Announce = await announce(message.guild.id);
+    if (!player.playing && !player.paused) await player.queue.start(message, Announce);
 
     return message.channel.send(`> 🎵 | Enqueuing radio station: \`${player.radio.name}\`.`);
   }
 }
+
+async function announce(id: string): Promise<boolean> {
+  const data = await guildConfig.findOne({ guildId: id });
+    //@ts-ignore
+  return data.announce;
+};

@@ -27,7 +27,7 @@ export default class SinfoCommand extends BaseCommand {
     if (!guild) return message.channel.send(
       `> ${client.utils.EmojiFinder(client, 'redtick').toString()} | No guilds found, please check if you spelled the name correctly or if you copied the correct ID.`
     );
-    let partner: boolean;
+    let partner: any;
     await guildConfig.findOne({ guildId: guild.id }, async (err: any, data: guildConfigInterface) => {
       if (err) await client.Webhook.send(`> ❌ | New error | **${message.guild.name}** | DB fetch Error | Error: \`${err.message || err}\``);
       if (!data) partner = undefined;

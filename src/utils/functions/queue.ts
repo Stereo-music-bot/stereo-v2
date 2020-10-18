@@ -29,7 +29,6 @@ export default class Queue extends EventEmitter {
             .on('end', async (tet) => {
                 if (tet && ["REPLACED", "STOPPED"].includes(tet.reason)) return;
                 if (this.repeat.song) this.next.unshift(this.current);
-                else if (this.repeat.queue || this.repeat.always) this.previous.push(this.current);
 
                 if (this.message.guild.me.voice.channel.members.size === 1 && !this.repeat.always) return this.emit('finished', 'Alone');
                 
@@ -79,7 +78,7 @@ export default class Queue extends EventEmitter {
             });
             this.on('finished', async (reason: string) => {
                 if ((this.repeat.queue && reason !== 'Alone') || this.repeat.always) {
-                    this.next.push(...this.previous);
+                    this.next = this.previous;
                     this.next.length ? '' : this.next.push(this.current);
                     if (!this.next.length) return this.emit('finished', 'empty');
                     this.current = this.next.shift();
@@ -112,8 +111,6 @@ export default class Queue extends EventEmitter {
                             `> 👋 | Disconnected from the voice channel, I will clear the queue now...`
                         );
                         return await this.clear();
-                    // default:
-                    //     return this.previous.push(this.current);
                 };
             });
         
