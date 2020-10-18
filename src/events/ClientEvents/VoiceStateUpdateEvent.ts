@@ -15,13 +15,13 @@ export default class WoiceStateUpdateEvent extends BaseEvent {
     if (!player) return;
 
     if (newState.member.permissions.has('DEAFEN_MEMBERS')) newState.member.voice.setDeaf(true);
-    
+
     const queue = player.queue;
     if (!queue) return;
     //@ts-ignore
     const channel: TextChannel = client.channels.cache.get(queue.message.channel.id) as TextChannel;
     if (channel) channel.send(
-      `> ${client.utils.EmojiFinder(client, 'redtick').toString()} | Please do not undeafen me, if you do this it could potentially break your privacy and will decrease the bandwith in this voice channel.`
+      `> ${client.utils.EmojiFinder(client, 'redtick').toString()} | Please do not undeafen me, if you do this it could potentially break your privacy and will decrease the bandwith in this voice channel. \n > 🔗 | Read more about it here: https://stereodiscord.glitch.me/privacy-policy`
     );
   }
 }
