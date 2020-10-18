@@ -42,6 +42,7 @@ export default class rest {
             if (["NO_MATCHES", "LOAD_FAILED"].includes(loadType)) return { loadType: "NO_MATCHES" };
             else return { loadType: "TRACK_LOADED", tracks };
         } else if (/(?:https?:\/\/|)?(?:www\.)?open\.spotify\.com\/playlist\/([a-z0-9\d-_]+)/gi.test(track)) {
+          return { loadType: 'NO_MATCHES' };
             const arr = track.split(/https?:\/\/(www\.)?open\.spotify\.com\/playlist\//gi);
             const result = arr[arr.length - 1].match(/([a-z0-9\d-_]+)/gi)[0];
             if (!result) return { loadType: "NO_MATCHES" };

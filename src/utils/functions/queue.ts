@@ -2,6 +2,7 @@ import { Message, MessageEmbed } from 'discord.js';
 import { EventEmitter } from 'events';
 import { Player } from 'lavaclient';
 import { decode } from '@lavalink/encoding';
+import { textChangeRangeIsUnchanged } from 'typescript';
 
 interface QueueObject {
     track: string;
@@ -135,6 +136,7 @@ export default class Queue extends EventEmitter {
     public async start(message: Message, announce: boolean) {
         this.announce = announce;
         this.message = message;
+        this.message.client.vote.set(this.message.guild.id, { votes: 0, users: [] });
         if (!this.current) this._next();
         await this.player.play(this.current.track);
     };
@@ -147,6 +149,7 @@ export default class Queue extends EventEmitter {
         player.stop();
         this._next();
         player.radio = undefined;
+        this.message.client.vote.set(this.message.guild.id, { votes: 0, users: [] });
         if (!this.current) return this.emit('finished', 'empty');
         return await player.play(this.current.track);
     };

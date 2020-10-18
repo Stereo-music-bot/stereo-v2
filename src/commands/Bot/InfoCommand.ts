@@ -11,7 +11,7 @@ export default class InfoCommand extends BaseCommand {
   constructor() {
     super('info', {
       category: 'Bot',
-      aliases: ['bot'],
+      aliases: ['bot', 'about'],
       description: 'Gives some intresting info/facts about the bot.',
       clientPermissions: ['EMBED_LINKS'],
       ownerOnly: false,

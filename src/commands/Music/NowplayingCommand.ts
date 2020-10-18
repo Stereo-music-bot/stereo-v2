@@ -42,7 +42,9 @@ export default class NowplayingCommand extends BaseCommand {
       }
   
       const requester = message.guild.members.cache.get(player.queue.current.requester);
-  
+      const vote = client.vote.get(message.guild.id);
+      const needed = message.guild.channels.cache.get(player.channel).members.size - 2;
+
       const embed = new MessageEmbed()
       .setAuthor(`Now playing: ${current.title}`, player.playing ? 'https://emoji.gg/assets/emoji/6935_Plak_Emoji.gif' : 'https://imgur.com/Y9XRC6N.png')
       .setDescription([
@@ -56,11 +58,14 @@ export default class NowplayingCommand extends BaseCommand {
         `> ⌚ **|** [${"▬".repeat(Math.floor((player.position / Number(current.length)) * 20)) + "⚪" + "▬".repeat(20 - Math.floor((player.position / Number(current.length)) * 20))}]`
       ])
       .setThumbnail(`https://i.ytimg.com/vi/${current.identifier}/hqdefault.jpg`)
+      .setFooter(`(${vote.votes}/${needed}) votes to skip this song`)
       .setColor(requester.displayHexColor || 'BLUE')
       return message.channel.send(embed);
     } else {
       const requester = message.guild.members.cache.get(player.queue.current.requester);
-  
+      const vote = client.vote.get(message.guild.id);
+      const needed = message.guild.channels.cache.get(player.channel).members.size - 2;
+      
       const embed = new MessageEmbed()
       .setAuthor(`Now playing: ${player.radio.name}`, player.playing ? 'https://emoji.gg/assets/emoji/6935_Plak_Emoji.gif' : 'https://imgur.com/Y9XRC6N.png')
       .setDescription([
@@ -70,6 +75,7 @@ export default class NowplayingCommand extends BaseCommand {
         `> **🔊 | Volume**: \`${player.volume}\`%`,
         `> **🎚️ | Bassboost Level**: \`${player.bass || 'none'}\` \n`,
       ])
+      .setFooter(`(${vote.votes}/${needed}) votes to skip this station`)
       .setColor(requester.displayHexColor || 'BLUE')
       return message.channel.send(embed);
     }

@@ -13,10 +13,11 @@ const client = new DiscordClient({});
 
 (async () => {
   client.utils = new Utils();
-  client.owners = ['304986851310043136'];
+  client.owners = ['304986851310043136', '715289819630141487', '765295694583693372', '552788119334813716'];
 
   client.rolePermissions = new Collection();
   client.ignoredChannels = new Collection();
+  client.vote = new Collection();
 
   client.Webhook = new WebhookClient(
     '762318210959540234', 
@@ -79,5 +80,6 @@ declare module 'discord.js' {
     Webhook: WebhookClient;
     rolePermissions: Collection<string, rolePermissions>;
     ignoredChannels: Collection<string, boolean>;
+    vote: Collection<string, { votes: number, users: string[] }>;
   }
 }
