@@ -1,6 +1,5 @@
-// https://discord.js.org/#/docs/main/stable/class/Client?scrollTo=e-voiceStateUpdate
-import { VoiceState, TextChannel } from 'discord.js';
 import BaseEvent from '../../utils/structures/BaseEvent';
+import { VoiceState, TextChannel } from 'discord.js';
 import DiscordClient from '../../client/client';
 
 export default class WoiceStateUpdateEvent extends BaseEvent {

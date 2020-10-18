@@ -47,7 +47,7 @@ function commandHandler(client: DiscordClient, message: Message, cmdName: string
   if (client.user.username === 'Stereo Dev' && !client.owners.includes(message.author.id)) return message.channel.send(
     `> 😢 | This is a developer only bot, we use this bot to test new features before the come to the main one, If you wish to help. Feel free to open a ticket with title: \n \`Becoming a beta tester\``
   );
-  const ignoredChannels = client.ignoredChannels.get(message.guild.id);
+  const ignoredChannels = client.ignoredChannels.get(message.channel.id);
   const command = client.commands.get(cmdName);
   const channel: TextChannel | NewsChannel = message.channel as TextChannel | NewsChannel;
   if (command) {
@@ -61,7 +61,7 @@ function commandHandler(client: DiscordClient, message: Message, cmdName: string
 
     if (client.owners.includes(message.author.id)) return command.run(client, message, cmdArgs);
 
-    if (ignoredChannels.includes(message.channel.id)) return message.channel.send(
+    if (ignoredChannels) return message.channel.send(
       `> ${client.utils.EmojiFinder(client, 'redtick').toString()} | You can not trigger this command here, please try to do it in a different channel.`
     );
 

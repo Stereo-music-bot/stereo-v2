@@ -78,6 +78,6 @@ declare module 'discord.js' {
     owners: Array<string>;
     Webhook: WebhookClient;
     rolePermissions: Collection<string, rolePermissions>;
-    ignoredChannels: Collection<string, Array<string>>;
+    ignoredChannels: Collection<string, boolean>;
   }
 }
