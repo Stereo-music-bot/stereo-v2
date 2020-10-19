@@ -106,5 +106,5 @@ export default class PlayCommand extends BaseCommand {
 async function announce(id: string): Promise<boolean> {
   const data = await guildConfig.findOne({ guildId: id });
   //@ts-ignore
-  return data.announce || true;
+  return data.announce ? true : false;
 }

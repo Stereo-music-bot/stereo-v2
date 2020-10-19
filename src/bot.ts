@@ -9,7 +9,7 @@ import { Manager } from 'lavaclient';
 import DiscordClient from './client/client';
 import mongoose, { Error } from 'mongoose';
 
-const client = new DiscordClient({});
+const client = new DiscordClient({ messageCacheLifetime: 6048e5 });
 
 (async () => {
   client.utils = new Utils();
@@ -36,7 +36,7 @@ const client = new DiscordClient({});
       if (guild) guild.shard.send(pk);
     },
   });
-
+  
   await registerCommands(client, '../commands');
   await registerEvents(client, '../events/ClientEvents');
   await registerWSEvents(client, '../events/WebSocketEvents');

@@ -17,7 +17,7 @@ export default class ResumeCommand extends BaseCommand {
     const player = client.music.players.get(message.guild.id);
     const { channel } = message.member.voice;
 
-    if (!player || (!player.queue.current || !player.radio)) return message.channel.send(
+    if (!player || (!player.playing && !player.paused)) return message.channel.send(
       `> ${client.utils.EmojiFinder(client, 'redtick').toString()} | There is no active player in this server.`
     );
     
