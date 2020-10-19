@@ -54,7 +54,13 @@ export default class QueueCommand extends BaseCommand {
       .setColor(message.guild.members.cache.get(player.queue.current.requester).displayHexColor || 'BLUE')
       .setThumbnail(`https://i.ytimg.com/vi/${(decode(player.queue.current.track)).identifier}/hqdefault.jpg`)
 
-    map.length ? embed.addField(`Queued Songs | ${map.length} of ${items.length} song(s) shown`, map) : '';
+    map.length ? 
+      `${map}`.length < 1024
+      ? embed.addField(`Queued Songs`, map) 
+      : embed.setDescription(map) 
+    : '';
+
+    embed.setFooter(`${map.length} of ${items.length} song(s) shown`);
 
     player.radio && player.radio.playing
       ? embed.addField(`Now Playing | Requested by ${message.guild.members.cache.get(player.queue.current.requester).user.tag}`, [
