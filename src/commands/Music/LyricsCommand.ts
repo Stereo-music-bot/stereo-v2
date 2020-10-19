@@ -28,23 +28,43 @@ export default class LyricsCommand extends BaseCommand {
     
     const { title } = decode(player.queue.current.track);
     let data: Track;
-
-    try {
-      data = await ksoft.lyrics.get(title || '_____', { textOnly: false });
-    } catch (e) {
-      if (e.message === 'No results') {
-        if (!title.length) {
-          return message.channel.send(
-            `> ${client.utils.EmojiFinder(client, 'redtick').toString()} | No lyrics for the current playing song found (maybe because you are listening to a radio instead of playing a song)`
-          );
-        } else {
-          return message.channel.send(
-            `> ${client.utils.EmojiFinder(client, 'redtick').toString()} | No lyrics for the song: **${title}** found.`
-          );
+    
+    if (args[0]) {
+      try {
+        data = await ksoft.lyrics.get(args[0] || '_____', { textOnly: false });
+      } catch (e) {
+        if (e.message === 'No results') {
+          if (!title.length) {
+            return message.channel.send(
+              `> ${client.utils.EmojiFinder(client, 'redtick').toString()} | No lyrics for the current playing song found (maybe because you are listening to a radio instead of playing a song)`
+            );
+          } else {
+            return message.channel.send(
+              `> ${client.utils.EmojiFinder(client, 'redtick').toString()} | No lyrics for the song: **${title}** found.`
+            );
+          }
         }
+        await message.channel.send(`> 🧱 | There was an unknown error that blocked us from getting the lyrics :(`);
+        return client.Webhook.send(`> ❌ | New error | **${message.guild.name}** | Lyrics Error | Error: \`${e}\``);
       }
-      await message.channel.send(`> 🧱 | There was an unknown error that blocked us from getting the lyrics :(`);
-      return client.Webhook.send(`> ❌ | New error | **${message.guild.name}** | Lyrics Error | Error: \`${e}\``);
+    } else {
+      try {
+        data = await ksoft.lyrics.get(title || '_____', { textOnly: false });
+      } catch (e) {
+        if (e.message === 'No results') {
+          if (!title.length) {
+            return message.channel.send(
+              `> ${client.utils.EmojiFinder(client, 'redtick').toString()} | No lyrics for the current playing song found (maybe because you are listening to a radio instead of playing a song)`
+            );
+          } else {
+            return message.channel.send(
+              `> ${client.utils.EmojiFinder(client, 'redtick').toString()} | No lyrics for the song: **${title}** found.`
+            );
+          }
+        }
+        await message.channel.send(`> 🧱 | There was an unknown error that blocked us from getting the lyrics :(`);
+        return client.Webhook.send(`> ❌ | New error | **${message.guild.name}** | Lyrics Error | Error: \`${e}\``);
+      }
     }
     
     const lyrics: string = data.lyrics.length > 2048 

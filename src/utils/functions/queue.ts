@@ -64,16 +64,18 @@ export default class Queue extends EventEmitter {
                 return this.message.channel.send(embed);
             })
             .on('stuck', async () => {
-                await this.message.client.Webhook.send(`> ❌ | New error | **${this.message.guild.name}** | Play error | Error: \`Player stuck on song: ${decode(this.current.track).title} | ${this.current.track}\``);
+                const { title } = decode(this.current.track);
+                await this.message.client.Webhook.send(`> ❌ | New error | **${this.message.guild.name}** | Play error | Error: \`Player stuck on song: ${title} | ${this.current.track}\``);
                 this.message.channel.send(
-                    `> <:redtick:749587325901602867> | The player is stuck on the song: **${decode(this.current.track).title}**. I will skip this song now.`
+                    `> <:redtick:749587325901602867> | The player is stuck on the song: **${title}**. I will skip this song now.`
                 );
                 return this._next();
             })
             .on('error', async (e) => {
-                await this.message.client.Webhook.send(`> ❌ | New error | **${this.message.guild.name}** | Song error | Song: ${decode(this.current.track).title} | Error: \`${!e.exception ? e.error : e.exception.message}\``);
+                const { title } = decode(this.current.track);
+                await this.message.client.Webhook.send(`> ❌ | New error | **${this.message.guild.name}** | Song error | Song: ${title} | Error: \`${!e.exception ? e.error : e.exception.message}\``);
                 this.message.channel.send(
-                    `> <:redtick:749587325901602867> | An error occured while playing **${decode(this.current.track).title}**: ${!e.exception ? e.error : e.exception.message}`
+                    `> <:redtick:749587325901602867> | An error occured while playing **${title}**: ${!e.exception ? e.error : e.exception.message}`
                 );
                 return this._next();
             });

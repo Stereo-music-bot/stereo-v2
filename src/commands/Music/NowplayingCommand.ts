@@ -24,7 +24,7 @@ export default class NowplayingCommand extends BaseCommand {
 
   async run(client: DiscordClient, message: Message, args: Array<string>) {
     const player = client.music.players.get(message.guild.id);
-    if (!player || !player.queue.current) return message.channel.send(
+    if (!player || (!player.playing && !player.paused)) return message.channel.send(
       `> ${client.utils.EmojiFinder(client, 'redtick').toString()} | There is no active player in this server.`
     );
     
