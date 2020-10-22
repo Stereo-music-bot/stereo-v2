@@ -6,7 +6,7 @@ export default class InviteCommand extends BaseCommand {
   constructor() {
     super('invite', {
       category: 'Useful Links', 
-      aliases: ['join'],
+      aliases: [],
       description: 'Gives you the invite link with and without admin perms.',
       ownerOnly: false,
       clientPermissions: ['EMBED_LINKS'],
