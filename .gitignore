@@ -2,3 +2,4 @@
 .env
 pacakage-lock.json
 /lavalink/logs/
+build/

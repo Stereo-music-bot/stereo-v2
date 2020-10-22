@@ -1,6 +1,6 @@
 import { Message } from 'discord.js';
-import BaseCommand from '../../utils/structures/BaseCommand';
-import DiscordClient from '../../client/client';
+import BaseCommand from '../src/utils/structures/BaseCommand';
+import DiscordClient from '../src/client/client';
 
 export default class NightcoreCommand extends BaseCommand {
   constructor() {
