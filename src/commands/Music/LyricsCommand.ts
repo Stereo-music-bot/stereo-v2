@@ -70,13 +70,13 @@ export default class LyricsCommand extends BaseCommand {
       ? data.lyrics.substr(0, 2045) + '...'
       : data.lyrics;
     const url: string = `https://lyrics.ksoft.si/song/${data.id}/${encodeURIComponent(data.name)}`;
-    
+
     if (!title.toLowerCase().includes(data.name.toLowerCase()) && !args[0]) return message.channel.send(
       `> ${client.utils.EmojiFinder(client, 'redtick').toString()} | I couldn't find a lyrics for \`${title}\`.`
     );
 
     const embed: MessageEmbed = new MessageEmbed()
-      .setTitle(`Lyrics: ${data.name.replace(/-/g, ' ')}`)
+      .setTitle(`Lyrics: ${data.artist ? data.artist.name.replace(/-/g, ' ') + ' - ' : ''}${data.name.replace(/-/g, ' ')}`)
       .setDescription(lyrics)
       .setURL(url || null)
       .setThumbnail(data.artwork || null)
