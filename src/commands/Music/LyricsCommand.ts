@@ -3,7 +3,6 @@ import BaseCommand from '../../utils/structures/BaseCommand';
 import DiscordClient from '../../client/client';
 import { decode } from '@lavalink/encoding';
 import { KSoftClient, Track } from '@ksoft/api';
-import { AssertionError } from 'assert';
 
 const ksoft = new KSoftClient(process.env.KSOFT_TOKEN);
 
@@ -71,6 +70,10 @@ export default class LyricsCommand extends BaseCommand {
       ? data.lyrics.substr(0, 2045) + '...'
       : data.lyrics;
     const url: string = `https://lyrics.ksoft.si/song/${data.id}/${encodeURIComponent(data.name)}`;
+    
+    if (!title.toLowerCase().includes(data.name.toLowerCase()) && !args[0]) return message.channel.send(
+      `> ${client.utils.EmojiFinder(client, 'redtick').toString()} | I couldn't find a lyrics for \`${title}\`.`
+    );
 
     const embed: MessageEmbed = new MessageEmbed()
       .setTitle(`Lyrics: ${data.name.replace(/-/g, ' ')}`)
