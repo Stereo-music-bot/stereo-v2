@@ -29,7 +29,7 @@ export default class BassboostCommand extends BaseCommand {
     const level = args[0].toLowerCase();
 
     if (!level || !levels.includes(level)) return message.channel.send(`> ${client.utils.EmojiFinder(client, 'redtick').toString()} | invalid bassboost level provided (${levels.join(', ')}).`);
-    if (!player || (!player.queue.current || !player.radio)) return message.channel.send(
+    if (!player || (!player.playing && !player.paused)) return message.channel.send(
       `> ${client.utils.EmojiFinder(client, 'redtick').toString()} | There is no active player in this server.`
     );
 

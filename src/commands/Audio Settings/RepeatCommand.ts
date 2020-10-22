@@ -28,7 +28,7 @@ export default class RepeatCommand extends BaseCommand {
     let type = args[0] ? args[0].toLowerCase() : '';
 
     if (!type || !types.includes(type)) return message.channel.send(`> ${client.utils.EmojiFinder(client, 'redtick').toString()} | invalid repeat type provided (queue/song/none).`);
-    if (!player || (!player.queue.current || !player.radio)) return message.channel.send(
+    if (!player || (!player.playing && !player.paused)) return message.channel.send(
       `> ${client.utils.EmojiFinder(client, 'redtick').toString()} | There is no active player in this server.`
     );
 

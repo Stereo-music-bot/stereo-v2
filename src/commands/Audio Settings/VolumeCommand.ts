@@ -21,7 +21,7 @@ export default class VolumeCommand extends BaseCommand {
     const volume = parseInt(args[0]);
 
     if (!volume || isNaN(volume) || volume > 200 || volume < 0) return message.channel.send(`> ${client.utils.EmojiFinder(client, 'redtick').toString()} | invalid volume amount provided (1-200).`);
-    if (!player || (!player.queue.current || !player.radio)) return message.channel.send(
+    if (!player || (!player.playing && !player.paused)) return message.channel.send(
       `> ${client.utils.EmojiFinder(client, 'redtick').toString()} | There is no active player in this server.`
     );
 

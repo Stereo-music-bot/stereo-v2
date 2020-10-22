@@ -9,7 +9,7 @@ import { Manager } from 'lavaclient';
 import DiscordClient from './client/client';
 import mongoose, { Error } from 'mongoose';
 
-const client = new DiscordClient({ messageCacheLifetime: 6048e5 });
+const client = new DiscordClient({ messageCacheLifetime: 6048e5, disableMentions: 'everyone' });
 
 (async () => {
   client.utils = new Utils();
