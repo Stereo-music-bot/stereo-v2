@@ -53,7 +53,7 @@ export default class InfoCommand extends BaseCommand {
       .addField(`**❯ Creators of ${client.user.tag}**:`, [
         `> **${client.utils.EmojiFinder(client, 'rolling').toString()} | Project Leader**: ${client.users.cache.get('715289819630141487').tag}`,
         `> **${client.utils.EmojiFinder(client, 'DaanGamesDG').toString()} | Bot Developer**: ${client.users.cache.get('304986851310043136').tag}`,
-        `> **${client.utils.EmojiFinder(client, 'e_luzmog').toString()} | Website Developer**: ${client.users.cache.get('624658532381360140').tag}`,
+        `> **${client.utils.EmojiFinder(client, 'e_luzmog').toString()} | Website Developer**: ${client.users.cache.get('765295694583693372').tag}`,
         `> **${client.utils.EmojiFinder(client, 'DinoAtlasDragon').toString()} | Art Creator**: ${client.users.cache.get('552788119334813716').tag}`
       ])
       .setFooter('This bot is made with discord.js and typescript | Lyrics api: ksoft.si', 'https://discord.js.org/static/logo-square.png');
