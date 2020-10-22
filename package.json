@@ -1,6 +1,6 @@
 {
   "name": "stereo-ts-bot",
-  "version": "0.5.0",
+  "version": "2.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -11,7 +11,7 @@
     "lavalink": "java -jar ./lavalink/Lavalink.jar"
   },
   "keywords": [],
-  "author": "",
+  "author": "daangamesdg",
   "license": "ISC",
   "dependencies": {
     "@ksoft/api": "^3.1.9",

@@ -46,7 +46,7 @@ export default class QueueCommand extends BaseCommand {
       };
     });
 
-    const map = items.slice(0, 10).map((d) => `**${( d.index) + 1}**. [${d.title}](${d.uri}) - \`${client.utils.formatTime(Number(d.length))}\``);
+    const map = items.slice(0, 10).map((d) => `**${( d.index) + 1}**. [${d.title.replace(/\[/g, '').replace(/\]/g, '')}](${d.uri}) - \`${client.utils.formatTime(Number(d.length))}\``);
     let np = (await rest.decode(player.queue.current.track))
     np = np.title == undefined ? decode(player.queue.current.track) : np;
     let embed = new MessageEmbed()
@@ -68,7 +68,7 @@ export default class QueueCommand extends BaseCommand {
         `> 👤 | ${message.guild.members.cache.get(player.queue.current.requester).toString()}`
       ])
       : embed.addField(`Now Playing | Requested by ${message.guild.members.cache.get(player.queue.current.requester).user.tag}`, [
-        `> 🎵 | [${np.title}](${np.uri}) - \`${client.utils.formatTime(Number(np.length))}\``,
+        `> 🎵 | [${np.title.replace(/\[/g, '').replace(/\]/g, '')}](${np.uri}) - \`${client.utils.formatTime(Number(np.length))}\``,
         `> 👤 | ${message.guild.members.cache.get(player.queue.current.requester).toString()}`
       ]);
       

@@ -55,7 +55,7 @@ export default class Queue extends EventEmitter {
                 const embed = new MessageEmbed()
                     .setTitle(`Now Playing ${title}`)
                     .setDescription([
-                        `> 🎵 | **Song**: [${title}](${uri})`,
+                        `> 🎵 | **Song**: [${title.replace(/\[/g, '').replace(/\]/g, '')}](${uri})`,
                         `> 👤 | **Requested By**: ${this.message.guild.members.cache.get(this.current.requester).toString()}`,
                         `> ⌚ | **Duration**: \`${this.message.client.utils.formatTime(Number(length))}\``
                     ])

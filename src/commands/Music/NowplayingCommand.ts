@@ -48,7 +48,7 @@ export default class NowplayingCommand extends BaseCommand {
       const embed = new MessageEmbed()
       .setAuthor(`Now playing: ${current.title}`, player.playing ? 'https://emoji.gg/assets/emoji/6935_Plak_Emoji.gif' : 'https://imgur.com/Y9XRC6N.png')
       .setDescription([
-        `> **🎵 | Song**: [${current.title}](${current.uri})`,
+        `> **🎵 | Song**: [${current.title.replace(/\[/g, '').replace(/\]/g, '')}](${current.uri})`,
         `> **👤 | Requested by**: ${requester.toString()}`,
         `> ${(player.queue.repeat.always || player.queue.repeat.queue) ? repeats['queue'] : player.queue.repeat.song ? repeats['song'] : repeats['none']}`,
         `> **🔊 | Volume**: \`${player.volume}\`%`,
@@ -67,7 +67,7 @@ export default class NowplayingCommand extends BaseCommand {
       const needed = message.guild.channels.cache.get(player.channel).members.size - 2;
       
       const embed = new MessageEmbed()
-      .setAuthor(`Now playing: ${player.radio.name}`, player.playing ? 'https://emoji.gg/assets/emoji/6935_Plak_Emoji.gif' : 'https://imgur.com/Y9XRC6N.png')
+      .setAuthor(`Now playing: ${player.radio.name.replace(/\[/g, '').replace(/\]/g, '')}`, player.playing ? 'https://emoji.gg/assets/emoji/6935_Plak_Emoji.gif' : 'https://imgur.com/Y9XRC6N.png')
       .setDescription([
         `> **🎵 | Radio Station**: \`${player.radio.name}\``,
         `> **👤 | Requested by**: ${requester.toString()}`,
