@@ -3,6 +3,7 @@ import { EventEmitter } from 'events';
 import { Player } from 'lavaclient';
 import { decode } from '@lavalink/encoding';
 import { textChangeRangeIsUnchanged } from 'typescript';
+import { threadId } from 'worker_threads';
 
 interface QueueObject {
     track: string;
@@ -32,7 +33,6 @@ export default class Queue extends EventEmitter {
                 if (this.repeat.song) this.next.unshift(this.current);
 
                 if (this.message.guild.me.voice.channel.members.size === 1 && !this.repeat.always) return this.emit('finished', 'Alone');
-                
                 this._next();
 
                 if (!this.current) return this.emit('finished', 'emptyQueue');
@@ -72,7 +72,11 @@ export default class Queue extends EventEmitter {
                 return this._next();
             })
             .on('error', async (e) => {
-                const { title } = decode(this.current.track);
+                let title: any;
+                try {
+                    const d = decode(this.current.track);
+                    title = d.title;
+                } catch (e) { title = 'Unknown' }
                 await this.message.client.Webhook.send(`> ❌ | New error | **${this.message.guild.name}** | Song error | Song: ${title} | Error: \`${!e.exception ? e.error : e.exception.message}\``);
                 this.message.channel.send(
                     `> <:redtick:749587325901602867> | An error occured while playing **${title}**: ${!e.exception ? e.error : e.exception.message}`
@@ -88,10 +92,6 @@ export default class Queue extends EventEmitter {
                     this.previous = [];
                     return await this.start(this.message, this.announce);
                 };
-
-                if (this.repeat.song && reason !== 'Alone') {
-                    return await this.start(this.message, this.announce);
-                }
 
                 switch (reason) {
                     case 'Alone':
@@ -148,11 +148,13 @@ export default class Queue extends EventEmitter {
     };
 
     public async skip(player: Player) {
+        if (this.repeat.song) this.next.unshift(this.current);
+        if (this.repeat.queue || this.repeat.always) this.previous.push(this.current);
         player.stop();
         this._next();
         player.radio = undefined;
         this.message.client.vote.set(this.message.guild.id, { votes: 0, users: [] });
-        if (!this.current) return this.emit('finished', 'empty');
+        if (!this.current || !this.current.track) return this.emit('finished', 'empty');
         return await player.play(this.current.track);
     };
 
