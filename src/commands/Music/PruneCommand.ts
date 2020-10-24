@@ -1,4 +1,4 @@
-import { Message, TextChannel, NewsChannel, Collection, Snowflake } from 'discord.js';
+import { Message, TextChannel, NewsChannel } from 'discord.js';
 import BaseCommand from '../../utils/structures/BaseCommand';
 import DiscordClient from '../../client/client';
 

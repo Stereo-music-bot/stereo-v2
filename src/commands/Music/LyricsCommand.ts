@@ -21,25 +21,20 @@ export default class LyricsCommand extends BaseCommand {
   async run(client: DiscordClient, message: Message, args: Array<string>) {
     const player = client.music.players.get(message.guild.id);
 
-    if (!player || !player.queue.current) return message.channel.send(
-      `> ${client.utils.EmojiFinder(client, 'redtick').toString()} | No active player in this server. Play a song to get the lyrics.`
-    );
-    
-    const { title } = decode(player.queue.current.track);
     let data: Track;
-    
+    let t: string = '';
     if (args[0]) {
       try {
-        data = await ksoft.lyrics.get(args[0] || '_____', { textOnly: false });
+        data = (await ksoft.lyrics.search(args[0] || '_____', { limit: 1, textOnly: false }))[0];
       } catch (e) {
         if (e.message === 'No results') {
-          if (!title.length) {
+          if (!t.length) {
             return message.channel.send(
               `> ${client.utils.EmojiFinder(client, 'redtick').toString()} | No lyrics for the current playing song found (maybe because you are listening to a radio instead of playing a song)`
             );
           } else {
             return message.channel.send(
-              `> ${client.utils.EmojiFinder(client, 'redtick').toString()} | No lyrics for the song: **${title}** found.`
+              `> ${client.utils.EmojiFinder(client, 'redtick').toString()} | No lyrics for the song: **${t}** found.`
             );
           }
         }
@@ -47,6 +42,8 @@ export default class LyricsCommand extends BaseCommand {
         return client.Webhook.send(`> ❌ | New error | **${message.guild.name}** | Lyrics Error | Error: \`${e}\``);
       }
     } else {
+      const { title } = decode(player.queue.current.track);
+      t = title;
       try {
         data = await ksoft.lyrics.get(title || '_____', { textOnly: false });
       } catch (e) {
@@ -71,8 +68,8 @@ export default class LyricsCommand extends BaseCommand {
       : data.lyrics;
     const url: string = `https://lyrics.ksoft.si/song/${data.id}/${encodeURIComponent(data.name)}`;
 
-    if (!title.toLowerCase().includes(data.name.toLowerCase()) && !args[0]) return message.channel.send(
-      `> ${client.utils.EmojiFinder(client, 'redtick').toString()} | I couldn't find a lyrics for \`${title}\`.`
+    if (!t.toLowerCase().includes(data.name.toLowerCase()) && !args[0]) return message.channel.send(
+      `> ${client.utils.EmojiFinder(client, 'redtick').toString()} | I couldn't find a lyrics for \`${t}\`.`
     );
 
     const embed: MessageEmbed = new MessageEmbed()
