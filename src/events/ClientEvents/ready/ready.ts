@@ -17,6 +17,17 @@ export default class ReadyEvent extends BaseEvent {
     
     client.music.init(client.user.id);
 
+    setInterval(async function() {
+      let channelId = '751459649538228256';
+      let guild = client.guilds.cache.get(`743145077206941747`);
+      let channel = guild.channels.cache.get(channelId);
+      let count = client.guilds.cache.size;
+
+      if (!channel) return console.log('no channel found');
+      await channel.edit({ name: `🎊 Server Count: ${count}`}, `10 minutes passed. Changing server count`);
+
+    }, 300000);
+
     console.log(`${client.user.tag} has logged in!`);
   }
 }

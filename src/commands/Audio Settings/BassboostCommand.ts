@@ -26,7 +26,7 @@ export default class BassboostCommand extends BaseCommand {
   async run(client: DiscordClient, message: Message, args: Array<string>) {
     const player = client.music.players.get(message.guild.id);
     const { channel } = message.member.voice;
-    const level = args[0].toLowerCase();
+    const level = (args[0] || '').toLowerCase();
 
     if (!level || !levels.includes(level)) return message.channel.send(`> ${client.utils.EmojiFinder(client, 'redtick').toString()} | invalid bassboost level provided (${levels.join(', ')}).`);
     if (!player || (!player.playing && !player.paused)) return message.channel.send(

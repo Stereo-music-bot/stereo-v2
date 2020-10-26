@@ -3,13 +3,13 @@ config();
 import { registerCommands, registerEvents, registerWSEvents, registerMusicEvents } from './utils/registry';
 import { rolePermissions } from './utils/database/Interfaces';
 import { WebhookClient, Collection } from 'discord.js';
-import Utils from './utils/functions/Util';
+import Utils from './utils/functions/util';
 import Queue from './utils/functions/queue';
 import { Manager } from 'lavaclient';
 import DiscordClient from './client/client';
 import mongoose, { Error } from 'mongoose';
 
-const client = new DiscordClient({ messageCacheLifetime: 6048e5, disableMentions: 'everyone' });
+const client = new DiscordClient({ messageCacheLifetime: 6048e5, disableMentions: 'all' });
 
 (async () => {
   client.utils = new Utils();
