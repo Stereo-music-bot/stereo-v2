@@ -16,7 +16,11 @@ export default class BassboostCommand extends BaseCommand {
       category: 'Audio Settings',
       aliases: ['bb', 'bass'],
       description: `Changes the bassboost of the music player (${levels.join(', ')})`,
-      userRolePermissions: ['MANAGE_PLAYER'],
+      userRolePermissions: {
+        ADD_SONGS: false,
+        MANAGE_QUEUE: false,
+        MANAGE_PLAYER: true
+      },
       usage: '<bassboost level>',
       ownerOnly: false,
       timeout: 7e3

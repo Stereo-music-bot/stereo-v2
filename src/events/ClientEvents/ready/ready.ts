@@ -50,7 +50,11 @@ function loadGuildConfig(guildId: string, client: DiscordClient) {
     if (!data) {
       const rolePermissions: rolePermissions = {
         roleId: guildId,
-        permissions: 'ALL',
+        permissions: {
+          ADD_SONGS: true,
+          MANAGE_PLAYER: true,
+          MANAGE_QUEUE: true,
+        },
       };
       const guildConfigObject = {
         guildId,
@@ -67,8 +71,12 @@ function loadGuildConfig(guildId: string, client: DiscordClient) {
       data.ignoredChannels.forEach(id => client.ignoredChannels.set(id, true));
       const rolePermissions: rolePermissions = {
         roleId: guildId,
-        permissions: 'ALL',
-      };
+        permissions: {
+          ADD_SONGS: true,
+          MANAGE_PLAYER: true,
+          MANAGE_QUEUE: true,
+        },
+      }
       client.rolePermissions.set(guildId, rolePermissions);
     };
   });

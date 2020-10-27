@@ -9,7 +9,11 @@ export default class ResumeCommand extends BaseCommand {
       aliases: ['constinue', 'start'],
       description: 'Resumes the playback of the song playing in the server.',
       ownerOnly: false,
-      userRolePermissions: ['MANAGE_PLAYER'],
+      userRolePermissions: {
+        ADD_SONGS: false,
+        MANAGE_QUEUE: false,
+        MANAGE_PLAYER: true,
+      },
     });
   }
 

@@ -9,7 +9,11 @@ interface Options {
   ownerOnly: boolean,
   clientPermissions?: Array<PermissionString>,
   userPermissions?: Array<PermissionString>,
-  userRolePermissions?: string[],
+  userRolePermissions?: {
+    ADD_SONGS?: boolean,
+    MANAGE_PLAYER?: boolean,
+    MANAGE_QUEUE?: boolean,
+  },
   timeout?: number
 }
 

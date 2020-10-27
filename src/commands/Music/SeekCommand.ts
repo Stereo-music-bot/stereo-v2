@@ -11,7 +11,11 @@ export default class SeekCommand extends BaseCommand {
       description: 'Seeks to a position in the song.',
       usage: '<position>',
       ownerOnly: false,
-      userRolePermissions: ['MANAGE_QUEUE'],
+      userRolePermissions: {
+        ADD_SONGS: false,
+        MANAGE_QUEUE: true,
+        MANAGE_PLAYER: false,
+      },
       timeout: 3e3
     });
   }

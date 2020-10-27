@@ -16,7 +16,11 @@ export default class GuildCreateEvent extends BaseEvent {
         if (!data) {
           const rolePermissions: rolePermissions = {
             roleId: guild.id,
-            permissions: 'ALL',
+            permissions: {
+              ADD_SONGS: true,
+              MANAGE_QUEUE: true,
+              MANAGE_PLAYER: true
+            }
           };
           const guildConfigObject = {
             guildId: guild.id,
@@ -33,7 +37,11 @@ export default class GuildCreateEvent extends BaseEvent {
           data.ignoredChannels.forEach(id => client.ignoredChannels.set(id, true));
           const rolePermissions: rolePermissions = {
             roleId: guild.id,
-            permissions: 'ALL',
+            permissions: {
+              ADD_SONGS: true,
+              MANAGE_QUEUE: true,
+              MANAGE_PLAYER: true
+            }
           };
           client.rolePermissions.set(guild.id, rolePermissions);
         };

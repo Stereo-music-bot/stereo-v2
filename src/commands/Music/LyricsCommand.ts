@@ -3,6 +3,7 @@ import BaseCommand from '../../utils/structures/BaseCommand';
 import DiscordClient from '../../client/client';
 import { decode } from '@lavalink/encoding';
 import { KSoftClient, Track } from '@ksoft/api';
+import rest from '../../utils/functions/rest';
 
 const ksoft = new KSoftClient(process.env.KSOFT_TOKEN);
 
@@ -25,7 +26,8 @@ export default class LyricsCommand extends BaseCommand {
     let t: string = '';
     if (args[0]) {
       try {
-        data = (await ksoft.lyrics.search(args[0] || '_____', { limit: 1, textOnly: false }))[0];
+        const d = (await rest.search(`ytsearch:${encodeURIComponent((args[0] ? args.join(' ') : ''))}`)).tracks[0].info.title;
+        data = (await ksoft.lyrics.search(d, { limit: 1, textOnly: false }))[0];
       } catch (e) {
         if (e.message === 'No results') {
           if (!t.length) {

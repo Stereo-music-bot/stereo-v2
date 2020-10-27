@@ -9,7 +9,11 @@ export default class SkipCommand extends BaseCommand {
       aliases: [],
       description: 'Votes to skip the song if with more than 3 people or skips the song.',
       ownerOnly: false,
-      userRolePermissions: ['MANAGE_QUEUE'],
+      userRolePermissions: {
+        ADD_SONGS: false,
+        MANAGE_QUEUE: true,
+        MANAGE_PLAYER: false,
+      },
       timeout: 5e3
     });
   }

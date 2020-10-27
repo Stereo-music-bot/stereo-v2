@@ -15,7 +15,11 @@ export default class SoundcloudCommand extends BaseCommand {
       usage: '<song name>',
       ownerOnly: false,
       clientPermissions: ['EMBED_LINKS'],
-      userRolePermissions: ['ADD_SONGS']
+      userRolePermissions: {
+        ADD_SONGS: true,
+        MANAGE_QUEUE: false,
+        MANAGE_PLAYER: false,
+      },
     });
   }
 

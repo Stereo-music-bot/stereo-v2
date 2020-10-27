@@ -59,7 +59,7 @@ function commandHandler(client: DiscordClient, message: Message, cmdName: string
       `> ‼ | I am missing the \`Use External Emojis\` Permission, without this permission I can not work in this server!`
     );
 
-    if (client.owners.includes(message.author.id)) return command.run(client, message, cmdArgs);
+    //if (client.owners.includes(message.author.id)) return command.run(client, message, cmdArgs);
 
     if (ignoredChannels) return message.channel.send(
       `> ${client.utils.EmojiFinder(client, 'redtick').toString()} | You can not trigger this command here, please try to do it in a different channel.`
@@ -78,13 +78,38 @@ function commandHandler(client: DiscordClient, message: Message, cmdName: string
       message.member.roles.cache.forEach(r => {
         const info = client.rolePermissions.get(r.id);
         if (info) {
-          if (info.permissions !== options.userRolePermissions[0] as 'MANAGE_PLAYER' | 'MANAGE_QUEUE' | 'ADD_SONGS' | 'ALL') {
-            if (info.permissions !== 'ALL') {
-              missing = true;
-              return message.channel.send(
-                `> 👮‍♂️ | You are missing the \`${options.userRolePermissions[0]}\` permission to use this command.`
-              );
-            }
+          // if ((info.permissions.ADD_SONGS !== options.userRolePermissions.ADD_SONGS || info.permissions.MANAGE_QUEUE !== options.userRolePermissions.MANAGE_QUEUE || info.permissions.MANAGE_PLAYER !== options.userRolePermissions.MANAGE_PLAYER) && !missing) {
+          //   missing = true;
+          //   return message.channel.send(
+          //       `> 👮‍♂️ | You are missing the \`${
+          //         options.userRolePermissions.ADD_SONGS 
+          //         ? '`Add Songs`'
+          //         : options.userRolePermissions.MANAGE_QUEUE
+          //           ? '`Manage Queue`'
+          //           : '`Manage Player`'
+          //       }\` permission to use this command.`
+          //   );
+          // }
+
+          if (((info.permissions.ADD_SONGS !== true) && (options.userRolePermissions.ADD_SONGS === true)) && !missing) {
+            missing = true;
+            return message.channel.send(
+                `> 👮‍♂️ | You are missing the \`Add Songs\` permission to use this command.`
+            );
+          }
+
+          if (((info.permissions.MANAGE_PLAYER !== true) && (options.userRolePermissions.MANAGE_PLAYER === true)) && !missing) {
+            missing = true;
+            return message.channel.send(
+                `> 👮‍♂️ | You are missing the \`Manage Player\` permission to use this command.`
+            );
+          }
+
+          if (((info.permissions.MANAGE_QUEUE !== true) && (options.userRolePermissions.MANAGE_QUEUE === true)) && !missing) {
+            missing = true;
+            return message.channel.send(
+                `> 👮‍♂️ | You are missing the \`Manage Queue\` permission to use this command.`
+            );
           }
         }
       });

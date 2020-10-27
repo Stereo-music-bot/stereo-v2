@@ -8,7 +8,11 @@ export default class VolumeCommand extends BaseCommand {
         category: 'Audio Settings',
         aliases: ['vol', 'setvolume'],
         description: 'Changes the volume of the music player (0-200)',
-        userRolePermissions: ['MANAGE_PLAYER'],
+        userRolePermissions: {
+          ADD_SONGS: false,
+          MANAGE_QUEUE: true,
+          MANAGE_PLAYER: false,
+        },
         usage: '<volume>',
         ownerOnly: false,
         timeout: 5e3

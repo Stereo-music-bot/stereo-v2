@@ -10,7 +10,11 @@ export default class RemoveCommand extends BaseCommand {
       description: 'Removes a song from the queue',
       usage: '<song number>',
       ownerOnly: false,
-      userRolePermissions: ['MANAGE_QUEUE'],
+      userRolePermissions: {
+        ADD_SONGS: false,
+        MANAGE_QUEUE: true,
+        MANAGE_PLAYER: false,
+      },
       timeout: 5e3
     });
   }

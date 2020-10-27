@@ -15,7 +15,11 @@ export default class PlayCommand extends BaseCommand {
       usage: '<song name/url>',
       ownerOnly: false,
       clientPermissions: ['EMBED_LINKS'],
-      userRolePermissions: ['ADD_SONGS']
+      userRolePermissions: {
+        ADD_SONGS: true,
+        MANAGE_QUEUE: false,
+        MANAGE_PLAYER: false,
+      },
     });
   }
 

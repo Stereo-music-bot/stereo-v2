@@ -1,6 +1,10 @@
 export interface rolePermissions {
   roleId: string,
-  permissions: 'MANAGE_PLAYER' | 'MANAGE_QUEUE' | 'ADD_SONGS' | 'ALL'
+  permissions: {
+    ADD_SONGS?: boolean,
+    MANAGE_QUEUE?: boolean,
+    MANAGE_PLAYER?: boolean
+  }
 };
 
 export interface guildConfig {

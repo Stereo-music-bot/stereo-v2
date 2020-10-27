@@ -9,11 +9,19 @@ import { Manager } from 'lavaclient';
 import DiscordClient from './client/client';
 import mongoose, { Error } from 'mongoose';
 
-const client = new DiscordClient({ messageCacheLifetime: 6048e5, disableMentions: 'all' });
+const client = new DiscordClient({ 
+  messageCacheLifetime: 6048e5, 
+  allowedMentions: { 
+    users: [
+      '750232563779633153', 
+      '745665203777306664'
+    ],
+  },
+});
 
 (async () => {
   client.utils = new Utils();
-  client.owners = ['304986851310043136', '715289819630141487', '765295694583693372', '552788119334813716'];
+  client.owners = ['304986851310043136', '715289819630141487', '765295694583693372', '552788119334813716', '679240313952403457'];
 
   client.rolePermissions = new Collection();
   client.ignoredChannels = new Collection();

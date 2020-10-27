@@ -14,7 +14,11 @@ export default class RadioCommand extends BaseCommand {
       description: 'Plays a radio station via discord.',
       usage: '<radio station name>',
       clientPermissions: ['EMBED_LINKS'],
-      userRolePermissions: ['ADD_SONGS'],
+      userRolePermissions: {
+        ADD_SONGS: true,
+        MANAGE_QUEUE: false,
+        MANAGE_PLAYER: false,
+      },
       ownerOnly: false,
       timeout: 7e3
     });

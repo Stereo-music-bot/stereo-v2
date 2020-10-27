@@ -9,7 +9,11 @@ export default class ShuffleCommand extends BaseCommand {
       aliases: ['random'],
       description: 'Shuffles the queue to give more play fun',
       ownerOnly: false,
-      userRolePermissions: ['MANAGE_QUEUE']
+      userRolePermissions: {
+        ADD_SONGS: false,
+        MANAGE_QUEUE: false,
+        MANAGE_PLAYER: true,
+      },
     });
   }
 

@@ -8,7 +8,11 @@ export default class ResetCommand extends BaseCommand {
       category: 'Audio Settings',
       aliases: ['re'],
       description: 'Resets all the effects (bassboost, nigthcore, repeat, etc).',
-      userRolePermissions: ['MANAGE_PLAYER'],
+      userRolePermissions: {
+        ADD_SONGS: false,
+        MANAGE_QUEUE: true,
+        MANAGE_PLAYER: false,
+      },
       ownerOnly: false,
       timeout: 15e3
     });

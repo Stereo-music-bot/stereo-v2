@@ -15,7 +15,11 @@ export default class RepeatCommand extends BaseCommand {
       category: 'Audio Settings',
       aliases: ['loop'],
       description: `Starts looping the queue/song or stops looping the queue/song.`,
-      userRolePermissions: ['MANAGE_QUEUE'],
+      userRolePermissions: {
+        ADD_SONGS: false,
+        MANAGE_QUEUE: true,
+        MANAGE_PLAYER: false,
+      },
       usage: '<queue/song/none>',
       ownerOnly: false,
       timeout: 7e3

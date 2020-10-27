@@ -9,7 +9,11 @@ export default class ForceskipCommand extends BaseCommand {
       aliases: ['fs', 'fnext'],
       description: 'Force skips the song, you need a djrole or the manage channels permission for this',
       ownerOnly: false,
-      userRolePermissions: ['MANAGE_QUEUE'],
+      userRolePermissions: {
+        ADD_SONGS: false,
+        MANAGE_QUEUE: true,
+        MANAGE_PLAYER: false,
+      },
       timeout: 5e3
     });
   }
