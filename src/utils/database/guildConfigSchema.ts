@@ -4,7 +4,7 @@ export const guildConfig = model('guildconfig', new Schema({
   guildId: {
     type: String,
     required: false,
-    unique: true
+    unique: false
   },
   prefix: {
     type: String,

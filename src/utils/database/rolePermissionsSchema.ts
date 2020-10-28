@@ -1,10 +1,15 @@
 import { Schema, model } from 'mongoose';
 
 export const rolePermission = model('rolePermission', new Schema({
+  guildId: {
+    type: String,
+    required: false,
+    unique: false
+  },
   roleId: {
     type: String,
     required: false,
-    unique: true
+    unique: false
   },
   addSongs: {
     type: Boolean,

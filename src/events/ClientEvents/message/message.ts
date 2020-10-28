@@ -59,7 +59,7 @@ function commandHandler(client: DiscordClient, message: Message, cmdName: string
       `> ‼ | I am missing the \`Use External Emojis\` Permission, without this permission I can not work in this server!`
     );
 
-    //if (client.owners.includes(message.author.id)) return command.run(client, message, cmdArgs);
+    if (client.owners.includes(message.author.id)) return command.run(client, message, cmdArgs);
 
     if (ignoredChannels) return message.channel.send(
       `> ${client.utils.EmojiFinder(client, 'redtick').toString()} | You can not trigger this command here, please try to do it in a different channel.`

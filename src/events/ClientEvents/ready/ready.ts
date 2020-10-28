@@ -1,8 +1,8 @@
 import { guildConfig } from '../../../utils/database/guildConfigSchema';
+import { rolePermission } from '../../../utils/database/rolePermissionsSchema'; 
 import { rolePermissions, guildConfig as guildConfigInterface } from '../../../utils/database/Interfaces';
 import BaseEvent from '../../../utils/structures/BaseEvent';
 import DiscordClient from '../../../client/client';
-
 const prefix = process.env.DISCORD_BOT_PREFIX;
 
 export default class ReadyEvent extends BaseEvent {
@@ -14,19 +14,27 @@ export default class ReadyEvent extends BaseEvent {
     else if (client.user.username === 'Stereo') await status(client);
     
     client.guilds.cache.forEach(g => loadGuildConfig(g.id, client));
+
+    client.partner.set('720367989630828694', true);
+    client.partner.set('701781652577321002', true);
+    client.partner.set('742412962408562818', true);
+    client.partner.set('743145077206941747', true);
+    client.partner.set('769114951767031849', true);
     
     client.music.init(client.user.id);
 
-    setInterval(async function() {
-      let channelId = '751459649538228256';
-      let guild = client.guilds.cache.get(`743145077206941747`);
-      let channel = guild.channels.cache.get(channelId);
-      let count = client.guilds.cache.size;
-
-      if (!channel) return console.log('no channel found');
-      await channel.edit({ name: `🎊 Server Count: ${count}`}, `10 minutes passed. Changing server count`);
-
-    }, 300000);
+    if (client.user.username === 'Stereo') {
+      setInterval(async function() {
+        let channelId = '751459649538228256';
+        let guild = client.guilds.cache.get(`743145077206941747`);
+        let channel = guild.channels.cache.get(channelId);
+        let count = client.guilds.cache.size;
+  
+        if (!channel) return console.log('no channel found');
+        await channel.edit({ name: `🎊 Server Count: ${count}`}, `10 minutes passed. Changing server count`);
+  
+      }, 300000);
+    }
 
     console.log(`${client.user.tag} has logged in!`);
   }
@@ -69,15 +77,38 @@ function loadGuildConfig(guildId: string, client: DiscordClient) {
     } else {
       client.prefix.set(guildId, data.prefix);
       data.ignoredChannels.forEach(id => client.ignoredChannels.set(id, true));
-      const rolePermissions: rolePermissions = {
-        roleId: guildId,
-        permissions: {
-          ADD_SONGS: true,
-          MANAGE_PLAYER: true,
-          MANAGE_QUEUE: true,
-        },
-      }
-      client.rolePermissions.set(guildId, rolePermissions);
+      rolePermission.find({ guildId }, (e, data) => {
+        if (e) throw new Error(e);
+
+        if (data.length) {
+          data.forEach(d => {
+            const rolePermissions: rolePermissions = {
+              //@ts-ignore
+              roleId: d.roleId,
+              permissions: {
+                //@ts-ignore
+                ADD_SONGS: d.addSongs,
+                //@ts-ignore
+                MANAGE_PLAYER: d.managePlayer,
+                //@ts-ignore
+                MANAGE_QUEUE: d.manageQueue,
+              },
+            };
+            //@ts-ignore
+            client.rolePermissions.set(d.roleId, rolePermissions);
+          });
+        } else {
+          const rolePermissions: rolePermissions = {
+            roleId: guildId,
+            permissions: {
+              ADD_SONGS: true,
+              MANAGE_PLAYER: true,
+              MANAGE_QUEUE: true,
+            },
+          }
+          client.rolePermissions.set(guildId, rolePermissions);
+        };
+      });
     };
   });
 }

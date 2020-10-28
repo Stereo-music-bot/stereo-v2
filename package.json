@@ -2,7 +2,7 @@
   "name": "stereo-ts-bot",
   "version": "2.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "./build/src/bot.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon --exec ts-node src/bot.ts",
@@ -28,7 +28,7 @@
     "humanize-duration": "^3.24.0",
     "lavaclient": "^3.1.2",
     "moment": "^2.29.1",
-    "mongoose": "^5.10.9",
+    "mongoose": "^5.10.11",
     "ms": "^2.1.2",
     "node-fetch": "^2.6.1"
   },

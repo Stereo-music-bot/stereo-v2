@@ -25,6 +25,7 @@ const client = new DiscordClient({
 
   client.rolePermissions = new Collection();
   client.ignoredChannels = new Collection();
+  client.partner = new Collection();
   client.vote = new Collection();
 
   client.Webhook = new WebhookClient(
@@ -50,10 +51,20 @@ const client = new DiscordClient({
   await registerWSEvents(client, '../events/WebSocketEvents');
   await registerMusicEvents(client, client.music, '../events/musicEvents');
 
-  mongoose.connect(process.env.DB_URL, { useUnifiedTopology: true, useNewUrlParser: true, useFindAndModify: false, useCreateIndex: true });
+  mongoose.connect(process.env.DB_URL, { 
+    useUnifiedTopology: true, 
+    useNewUrlParser: true, 
+    useFindAndModify: false,
+    useCreateIndex: true,
+  });
   client.login(process.env.DISCORD_BOT_TOKEN);
 
-  mongoose.connection.on("connected" , () => console.log('Mongoose Database successfully connected!'));
+  mongoose.connection.on("connected" , () => {
+    if (process.env.DISCORD_BOT_PREFIX === '+') client.Webhook.send(
+      `> ✅ | Successfully connected to database!`
+    );
+    return console.log('Mongoose Database successfully connected!')
+  });
   mongoose.connection.on("err" , (err: Error) => {
     console.error(`Mongoose Error:\n ${err.stack ? err.stack : err.name} | ${err.message}`);
     return client.Webhook.send(
@@ -82,6 +93,7 @@ declare module "lavaclient" {
 
 declare module 'discord.js' {
   interface Client {
+    partner: Collection<string, boolean>;
     utils: Utils;
     music: Manager;
     owners: Array<string>;
