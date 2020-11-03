@@ -8,7 +8,11 @@ export default class NightcoreCommand extends BaseCommand {
       category: 'Audio Settings',
       aliases: ['nc'],
       description: `Toggles the nightcore filter`,
-      userRolePermissions: ['MANAGE_PLAYER'],
+      userRolePermissions: {
+        MANAGE_PLAYER: true,
+        MANAGE_QUEUE: false,
+        ADD_SONGS: false
+      },
       ownerOnly: false,
       timeout: 10e3
     });

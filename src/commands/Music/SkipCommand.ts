@@ -22,7 +22,7 @@ export default class SkipCommand extends BaseCommand {
     const player = client.music.players.get(message.guild.id);
     const vote = client.vote.get(message.guild.id);
     const channel: VoiceChannel = message.guild.channels.cache.get(player.channel) as VoiceChannel;
-    const voteCount: number = channel.members.size - 2;
+    const voteCount: number = channel.members.filter(m => !m.user.bot).size - 1;
 
     if (vote.users.includes(message.author.id)) return message.channel.send(`> ${client.emojis.cache.find(m => m.name === 'redtick').toString()} You already voted! (${vote.votes}/${voteCount})`);
     if (!player || !player.queue || !player.queue.current) return message.channel.send(`> ${client.emojis.cache.find(m => m.name === 'redtick').toString()} This server doesnt have a queue!`);
