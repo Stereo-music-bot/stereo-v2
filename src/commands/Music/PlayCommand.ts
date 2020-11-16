@@ -47,7 +47,7 @@ export default class PlayCommand extends BaseCommand {
 
     if (!result || !result.tracks || !result.tracks.length)
       return message.channel.send(
-        `> ${client.utils.EmojiFinder(client, 'redtick').toString()} | No search results where found for your search query.`
+        `> ${client.utils.EmojiFinder(client, 'redtick').toString()} | No search results where found for your search query. ${result.message ? ` \n > ❗ | Error: ${result.message}` : ''}`
       );
 
     player = client.music.players.get(message.guild.id) || client.music.create(message.guild.id);

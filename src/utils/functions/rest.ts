@@ -1,3 +1,4 @@
+import types from '@kyflx-dev/lavalink-types';
 import fetch from 'node-fetch';
 
 interface TrackInfo {
@@ -38,7 +39,7 @@ export default class rest {
             const { tracks, loadType } = await rest.search(
               encodeURIComponent(`ytsearch:${song.artists[0].name} - ${song.name}`)
             );
-      
+
             if (["NO_MATCHES", "LOAD_FAILED"].includes(loadType)) return { loadType: "NO_MATCHES" };
             else return { loadType: "TRACK_LOADED", tracks };
         } else if (/(?:https?:\/\/|)?(?:www\.)?open\.spotify\.com\/playlist\/([a-z0-9\d-_]+)/gi.test(track)) {
@@ -76,7 +77,7 @@ export default class rest {
                 })
             ).json();
         } catch (e) {
-            return { loadType: 'LOAD_FAILED' };
+            return { loadType: 'LOAD_FAILED', message: 'Because of an unkown error I am not able to load your song' };
         }
     };
 
