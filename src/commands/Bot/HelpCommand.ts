@@ -52,11 +52,17 @@ export default class HelpCommand extends BaseCommand {
         `> 📖 | **description**: ${options.description ? !options.description.endsWith('.') ? options.description + '.' : options.description : 'No description provided for this command.'}`,
         `> 📋 | **usage**: ${cmd.getName()} ${options.usage || ''} \n`,
         `> ${options.ownerOnly ? '🔒' : '🔓'} | **Owner Only**: \`${options.ownerOnly || 'false'}\``,
-        `> 🔖 | **Role Permissions**: ${options.userRolePermissions.ADD_SONGS 
-          ? '`Add Songs`'
-          : options.userRolePermissions.MANAGE_QUEUE
-            ? '`Manage Queue`'
-            : options.userRolePermissions.MANAGE_QUEUE ? '`Manage Player`' : 'None'}`,
+        `> 🔖 | **Role Permissions**: ${
+          options.userRolePermissions ? 
+            options.userRolePermissions.ADD_SONGS 
+            ? '`Add Songs`'
+            : options.userRolePermissions.MANAGE_QUEUE
+              ? '`Manage Queue`'
+              : options.userRolePermissions.MANAGE_QUEUE 
+                ? '`Manage Player`' 
+                : 'None'
+          : 'None'
+        }`,
         `> 👮‍♂️ | **User Permissions**: ${options.userPermissions ? client.utils.formatPerms(options.userPermissions) : '`None`'}`,
         `> ❗ | **Client Permissions**: ${options.clientPermissions ? client.utils.formatPerms(options.clientPermissions) : '`None`'}`
       ]);
