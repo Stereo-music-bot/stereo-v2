@@ -69,7 +69,7 @@ export default class Queue extends EventEmitter {
                 this.message.channel.send(
                     `> <:redtick:749587325901602867> | The player is stuck on the song: **${title}**. I will skip this song now.`
                 );
-                return this._next();
+                return this.skip(this.player);
             })
             .on('error', async (e) => {
                 let title: any;
@@ -81,7 +81,7 @@ export default class Queue extends EventEmitter {
                 this.message.channel.send(
                     `> <:redtick:749587325901602867> | An error occured while playing **${title}**: ${!e.exception ? e.error : e.exception.message}`
                 );
-                return this._next();
+                return this.skip(this.player);
             });
             this.on('finished', async (reason: string) => {
                 if ((this.repeat.queue && reason !== 'Alone') || this.repeat.always) {

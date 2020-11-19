@@ -18,9 +18,9 @@ export default class PermissionsCommand extends BaseCommand {
   }
 
   async run(client: DiscordClient, message: Message, args: Array<string>) {
-    if (!client.partner.get(message.guild.id)) return message.channel.send(
-      `> 🔒 | It looks like this server is not partnered with us, this command is for partners only right now but it will be public soon!`
-    );
+    // if (!client.partner.get(message.guild.id)) return message.channel.send(
+    //   `> 🔒 | It looks like this server is not partnered with us, this command is for partners only right now but it will be public soon!`
+    // );
 
     const rolePermissions = ['MANAGE_PLAYER', 'MANAGE_QUEUE', 'ADD_SONGS', 'ALL'];
 
