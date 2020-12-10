@@ -22,7 +22,7 @@ export default class rest {
             const result = arr[arr.length - 1].match(/([a-z0-9\d-_]+)/gi)[0];
             if (!result) return { loadType: "NO_MATCHES" };
       
-            const token = await getSpotifyToken();
+            const token = await this.getSpotifyToken();
       
             const song = await (
               await fetch(`https://api.spotify.com/v1/tracks/${result}`, {
@@ -42,31 +42,7 @@ export default class rest {
 
             if (["NO_MATCHES", "LOAD_FAILED"].includes(loadType)) return { loadType: "NO_MATCHES" };
             else return { loadType: "TRACK_LOADED", tracks };
-        } else if (/(?:https?:\/\/|)?(?:www\.)?open\.spotify\.com\/playlist\/([a-z0-9\d-_]+)/gi.test(track)) {
-          return { loadType: 'NO_MATCHES' };
-            const arr = track.split(/https?:\/\/(www\.)?open\.spotify\.com\/playlist\//gi);
-            const result = arr[arr.length - 1].match(/([a-z0-9\d-_]+)/gi)[0];
-            if (!result) return { loadType: "NO_MATCHES" };
-
-            const token = await getSpotifyToken();
-      
-            const songs = await (
-              await fetch(`https://api.spotify.com/v1/playlists/${result}`, {
-                headers: {
-                  authorization: `${token.tokenType} ${token.accessToken}`,
-                  "User-Agent": "StereoMusicBot",
-                  "Content-Type": "application/json",
-                },
-              })
-            ).json();
-
-            if (!songs || !songs.tracks.items) return { loadType: "NO_MATCHES" };
-            songs.tracks.items.forEach(async (s: any) => {
-                await rest.search(
-                    encodeURIComponent(`ytsearch:${s.track.artists[0].name} - ${s.track.name}`)
-                );
-            });
-        }
+        };
       
         try {
             return await (
@@ -90,6 +66,30 @@ export default class rest {
             })
         ).json();
     }
+
+    public static async getSpotifyToken(): Promise<spotifyToken> {
+      return fetch(`https://accounts.spotify.com/api/token?grant_type=client_credentials`, {
+          method: "POST",
+          headers: {
+            authorization: `Basic ${Buffer.from(
+              `${process.env.SPOTIFY_ID}:${process.env.SPOTIFY_SECRET}`
+            ).toString("base64")}`,
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        }
+      )
+      .then((r) => r.json())
+      .then((data) => {
+          const { access_token, expires_in, token_type } = data;
+    
+          return {
+            accessToken: access_token,
+            expiresIn: expires_in,
+            tokenType: token_type,
+            expiresAt: new Date(new Date().getTime() + (expires_in - 2000) * 1000),
+          };
+        });
+  };
 };
 
 interface spotifyToken {
@@ -98,26 +98,3 @@ interface spotifyToken {
     tokenType: string,
     expiresAt: Date
 }
-async function getSpotifyToken(): Promise<spotifyToken> {
-    return fetch(`https://accounts.spotify.com/api/token?grant_type=client_credentials`, {
-        method: "POST",
-        headers: {
-          authorization: `Basic ${Buffer.from(
-            `${process.env.SPOTIFY_ID}:${process.env.SPOTIFY_SECRET}`
-          ).toString("base64")}`,
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-      }
-    )
-    .then((r) => r.json())
-    .then((data) => {
-        const { access_token, expires_in, token_type } = data;
-  
-        return {
-          accessToken: access_token,
-          expiresIn: expires_in,
-          tokenType: token_type,
-          expiresAt: new Date(new Date().getTime() + (expires_in - 2000) * 1000),
-        };
-      });
-  };

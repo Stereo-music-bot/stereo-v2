@@ -22,7 +22,7 @@
     "@types/ms": "^0.7.31",
     "@types/node": "^14.11.8",
     "@types/node-fetch": "^2.5.7",
-    "discord.js": "^12.3.1",
+    "discord.js": "^12.5.1",
     "dotenv": "^8.2.0",
     "fuzzy-search": "^3.2.1",
     "humanize-duration": "^3.24.0",

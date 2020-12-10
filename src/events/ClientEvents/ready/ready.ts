@@ -42,7 +42,7 @@ export default class ReadyEvent extends BaseEvent {
 
 async function devStatus(client: DiscordClient): Promise<void> {
   await client.user.setStatus('idle');
-  let activities = ['with the re-written code', 'the new Beta 5 soon™', 'Listening to Daan about the new update', 'Waiting for beta 5 launch', 'with the new music system 👀'], i =0;
+  let activities = ['with the beta testers!'], i =0;
   setInterval(() => client.user.setActivity(activities[i++ % activities.length], { type: 'PLAYING' }), 15000);
 };
 

@@ -53,7 +53,7 @@ function commandHandler(client: DiscordClient, message: Message, cmdName: string
   if (command) {
     const options = command.getOptions();
     if (options.ownerOnly && !client.owners.includes(message.author.id)) return message.channel.send(
-      `> ❗ | Sorry this is a command intended for onwers and developers of \`${client.user.tag}\` only!`
+      `> ❗ | Sorry this is a command intended for owners and developers of \`${client.user.tag}\` only!`
     );
     if (!message.guild.me.hasPermission('USE_EXTERNAL_EMOJIS') || !channel.permissionsFor(client.user).has('USE_EXTERNAL_EMOJIS')) return message.channel.send(
       `> ‼ | I am missing the \`Use External Emojis\` Permission, without this permission I can not work in this server!`
